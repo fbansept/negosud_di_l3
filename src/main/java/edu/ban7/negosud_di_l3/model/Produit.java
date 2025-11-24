@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,4 +24,15 @@ public class Produit {
     protected String nom;
 
     protected float prix;
+
+    @ManyToOne(optional = false)
+    protected Famille famille;
+
+    @ManyToMany
+    @JoinTable(
+            name= "etiquette_produit",
+            joinColumns = @JoinColumn(name = "produit_id"),
+            inverseJoinColumns = @JoinColumn(name = "etiquette_id")
+    )
+    protected List<Etiquette> etiquettes = new ArrayList<>();
 }

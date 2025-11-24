@@ -10,6 +10,12 @@ type = 'JSON'
 raw = '''
 {
   "nom" : "super vin !!!",
-  "prix" : 99
+  "prix" : 99,
+  "famille" : {
+    "id" : 1
+  },
+  "fournisseurs" : [
+    {"id" :  1}
+  ]
 }'''
 ```

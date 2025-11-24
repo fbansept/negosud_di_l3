@@ -9,7 +9,11 @@ id = '4bf0915e-1bfe-4344-9b8d-05c4a80fe245'
 type = 'JSON'
 raw = '''
 {
-  "nom" : "beaujolais nouveau",
-  "prix" : 5.5
+  "nom" : "beaujolais xxx",
+  "prix" : 5.5,
+  "famille" : {
+    "id": 1,
+   
+  }
 }'''
 ```
