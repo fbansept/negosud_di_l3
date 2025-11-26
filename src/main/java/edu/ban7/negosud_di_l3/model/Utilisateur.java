@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,29 +17,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Produit {
+public class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
     @Column(nullable = false, unique = true, length = 100)
-    @JsonView(CommandeView.class)
-    protected String nom;
+    protected String email;
 
-    protected float prix;
+    @Column(nullable = false)
+    protected String password;
 
-    @ManyToOne(optional = false)
-    protected Famille famille;
-
-    @ManyToOne(optional = false)
-    protected Fournisseur fournisseur;
-
-    @ManyToMany
-    @JoinTable(
-            name= "etiquette_produit",
-            joinColumns = @JoinColumn(name = "produit_id"),
-            inverseJoinColumns = @JoinColumn(name = "etiquette_id")
-    )
-    protected List<Etiquette> etiquettes = new ArrayList<>();
 }
