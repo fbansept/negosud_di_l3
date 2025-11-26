@@ -2,8 +2,18 @@ import './App.css'
 
 // App.jsx (ou App.tsx)
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Link, BrowserRouter} from 'react-router-dom';
 import './App.css';
+
+// Composant pour le menu de navigation
+function Menu() {
+    return (
+        <nav style={{ backgroundColor: '#f0f0f0', padding: '10px', marginBottom: '20px' }}>
+            <Link to="/" style={{ marginRight: '15px' }}>Accueil</Link>
+            <Link to="/panier">Panier</Link>
+        </nav>
+    );
+}
 
 // Composant pour la page d'accueil
 function Accueil() {
@@ -55,6 +65,7 @@ function Panier() {
 function App() {
     return (
         <Router>
+            <Menu/>
             <Routes>
                 <Route path="/" element={<Accueil />} />
                 <Route path="/panier" element={<Panier />} />
