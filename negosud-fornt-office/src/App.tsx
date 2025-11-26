@@ -1,31 +1,66 @@
-import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
-function App() {
+// App.jsx (ou App.tsx)
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import './App.css';
 
-  const [ligneCommandes, setLigneCommandes] = useState([]);
-
-  //on effectue la requete pour les ligne du panier une seule fois
-    useEffect(() => {
-
-            fetch("http://localhost:8080/api/commande/panier")
-                .then(res => res.json())
-                .then(commande => setLigneCommandes(commande.ligneCommandes))
-
-        },  []);
-
-  return (
-    <>
-      <h1>Panier</h1>
-      <ul>
-          {
-              ligneCommandes.map((ligne: any) => <li key={ligne.id}>{ligne.produit.nom}</li>)
-          }
-      </ul>
-    </>
-  )
+// Composant pour la page d'accueil
+function Accueil() {
+    return (
+        <div>
+            <h1>Bienvenue sur notre site !</h1>
+            <p>Ceci est la page d'accueil.</p>
+            <Link to="/panier">Voir le panier</Link>
+        </div>
+    );
 }
 
-export default App
+// Composant pour la page panier
+function Panier() {
+    const [ligneCommandes, setLigneCommandes] = useState([]);
+
+    useEffect(() => {
+        raffraichir();
+    }, []);
+
+    function raffraichir() {
+        fetch("http://localhost:8080/api/commande/panier")
+            .then(res => res.json())
+            .then(commande => setLigneCommandes(commande.ligneCommandes));
+    }
+
+    function supprimerLigne(idLigne: number) {
+        fetch(`http://localhost:8080/api/ligne-commande/${idLigne}`, { method: "DELETE" })
+            .then(() => raffraichir());
+    }
+
+    return (
+        <div>
+            <h1>Panier</h1>
+            <Link to="/">Retour à l'accueil</Link>
+            <ul>
+                {ligneCommandes.map((ligne: any) => (
+                    <li key={ligne.id}>
+                        <span>{ligne.produit.nom}</span>
+                        <button onClick={() => supprimerLigne(ligne.id)}>Supprimer</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+// Composant principal avec le router
+function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Accueil />} />
+                <Route path="/panier" element={<Panier />} />
+            </Routes>
+        </Router>
+    );
+}
+
+export default App;
