@@ -2,7 +2,7 @@ import './App.css'
 
 // App.jsx (ou App.tsx)
 import { useEffect, useState } from 'react';
-import {BrowserRouter as Router, Routes, Route, Link, BrowserRouter} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import './App.css';
 
 // Composant pour le menu de navigation
