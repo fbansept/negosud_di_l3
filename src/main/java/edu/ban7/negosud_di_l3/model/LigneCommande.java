@@ -20,6 +20,7 @@ public class LigneCommande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(CommandeView.class)
     protected Integer id;
 
     @ManyToOne(optional = false)
