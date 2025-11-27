@@ -53,7 +53,7 @@ public class CommandeController {
     public ResponseEntity<Commande> getPanier() {
 
         //Test en attendant le système d'authentification
-        Utilisateur fauxUtilisateurConnecte = new Utilisateur(1,null,null);
+        Utilisateur fauxUtilisateurConnecte = new Utilisateur(1,null,null,null);
 
         Optional<Commande> optionalPanier =  commandeDao.getPanier(fauxUtilisateurConnecte);
 

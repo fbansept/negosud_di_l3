@@ -2,10 +2,14 @@ package edu.ban7.negosud_di_l3.controller;
 
 import edu.ban7.negosud_di_l3.dao.ProduitDao;
 import edu.ban7.negosud_di_l3.model.Produit;
+import edu.ban7.negosud_di_l3.security.IsAdmin;
+import edu.ban7.negosud_di_l3.security.IsClient;
+import edu.ban7.negosud_di_l3.security.IsEmploye;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,11 +25,13 @@ public class ProduitController {
     protected final ProduitDao produitDao;
 
     @GetMapping("/list")
+    @IsClient
     public List<Produit> list() {
         return produitDao.findAll();
     }
 
     @GetMapping("/{id}")
+    @IsClient
     public ResponseEntity<Produit> get(@PathVariable int id) {
 
         Optional<Produit> optionalProduit =  produitDao.findById(id);
@@ -39,6 +45,7 @@ public class ProduitController {
     }
 
     @PostMapping
+    @IsEmploye
     public ResponseEntity<Produit> create(@RequestBody Produit produit) {
 
         produitDao.save(produit);
@@ -48,6 +55,7 @@ public class ProduitController {
 
 
     @DeleteMapping("/{id}")
+    @IsAdmin
     public ResponseEntity<Produit> delete(@PathVariable int id) {
 
         Optional<Produit> optionalProduit =  produitDao.findById(id);
@@ -63,6 +71,7 @@ public class ProduitController {
     }
 
     @PutMapping("/{id}")
+    @IsEmploye
     public ResponseEntity<Produit> update(
             @PathVariable int id,
             @RequestBody Produit produit) {

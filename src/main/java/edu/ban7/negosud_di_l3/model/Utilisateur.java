@@ -1,6 +1,7 @@
 package edu.ban7.negosud_di_l3.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import edu.ban7.negosud_di_l3.security.Role;
 import edu.ban7.negosud_di_l3.view.CommandeView;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,5 +29,13 @@ public class Utilisateur {
 
     @Column(nullable = false)
     protected String password;
+
+    //protected boolean admin;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('CLIENT', 'ADMIN', 'EMPLOYE')")
+    protected Role role;
+
 
 }
