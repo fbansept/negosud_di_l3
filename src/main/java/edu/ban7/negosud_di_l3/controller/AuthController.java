@@ -5,6 +5,7 @@ import edu.ban7.negosud_di_l3.model.Utilisateur;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
+
+    @Value("${jwt.secret}")
+    protected String jwtSecret;
 
     protected final UtilisateurDao utilisateurDao;
     protected final PasswordEncoder passwordEncoder;
@@ -58,7 +62,7 @@ public class AuthController {
         String jwt = Jwts
                 .builder()
                 .setSubject(utilisateur.getEmail())
-                .signWith(SignatureAlgorithm.HS512, "azerty")
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
 
         return new ResponseEntity<>(jwt, HttpStatus.OK);
