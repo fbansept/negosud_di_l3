@@ -2,6 +2,7 @@ package edu.ban7.negosud_di_l3.controller;
 
 import edu.ban7.negosud_di_l3.dao.LigneCommandeDao;
 import edu.ban7.negosud_di_l3.model.LigneCommande;
+import edu.ban7.negosud_di_l3.security.IsAdmin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/ligne-commande")
+@IsAdmin
 public class LigneCommandeController {
 
     protected final LigneCommandeDao ligneCommandeDao;

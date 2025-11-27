@@ -20,6 +20,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/produit")
+@IsEmploye
 public class ProduitController {
 
     protected final ProduitDao produitDao;

@@ -5,6 +5,7 @@ import edu.ban7.negosud_di_l3.dao.CommandeDao;
 import edu.ban7.negosud_di_l3.model.Commande;
 import edu.ban7.negosud_di_l3.model.StatusCommande;
 import edu.ban7.negosud_di_l3.model.Utilisateur;
+import edu.ban7.negosud_di_l3.security.IsEmploye;
 import edu.ban7.negosud_di_l3.view.CommandeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/commande")
+@IsEmploye
 public class CommandeController {
 
     protected final CommandeDao commandeDao;

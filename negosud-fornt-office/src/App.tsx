@@ -7,6 +7,11 @@ import './App.css';
 
 // Composant pour le menu de navigation
 function Menu() {
+
+
+
+
+
     return (
         <nav style={{ backgroundColor: '#f0f0f0', padding: '10px', marginBottom: '20px' }}>
             <Link to="/" style={{ marginRight: '15px' }}>Accueil</Link>
@@ -17,6 +22,26 @@ function Menu() {
 
 // Composant pour la page d'accueil
 function Accueil() {
+
+    useEffect(() => {
+        login();
+    }, []);
+
+    function login() {
+
+        const utilisateur = {email : "c@c.com", password : "root"}
+
+        fetch("http://localhost:8080/connexion", {
+            method: 'POST',
+            body : JSON.stringify(utilisateur),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(jwt => localStorage.setItem('token', jwt))
+    }
+
     return (
         <div>
             <h1>Bienvenue sur notre site !</h1>
@@ -35,7 +60,11 @@ function Panier() {
     }, []);
 
     function raffraichir() {
-        fetch("http://localhost:8080/api/commande/panier")
+        fetch("http://localhost:8080/api/commande/panier",{
+            headers:{
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then(res => res.json())
             .then(commande => setLigneCommandes(commande.ligneCommandes));
     }
