@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 
-export default function Connexion() {
+export default function Connexion({setConnecte}: {setConnecte: Function}) {
 
     const {
         register,
@@ -21,7 +21,10 @@ export default function Connexion() {
             }
         })
             .then(res => res.text())
-            .then(jwt => localStorage.setItem('token', jwt))
+            .then(jwt => {
+                localStorage.setItem('token', jwt)
+                setConnecte(true);
+            })
     }
 
     return (

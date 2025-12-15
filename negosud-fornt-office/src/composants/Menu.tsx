@@ -1,6 +1,13 @@
 import {Link} from "react-router-dom";
 
-export default function Menu() {
+type MenuProps = { connecte: boolean, setConnecte: Function }
+
+export default function Menu({connecte, setConnecte} : MenuProps) {
+
+    function onDeconnexion() {
+        localStorage.removeItem('token');
+        setConnecte(false)
+    }
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -15,17 +22,31 @@ export default function Menu() {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
                         <li className="nav-item">
-                            <Link className="nav-link"  to="/">Accueil</Link>
+                            <Link className="nav-link" to="/">Accueil</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link"  to="/panier">Panier</Link>
+                            <Link className="nav-link" to="/panier">Panier</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link"  to="/connexion">Connexion</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link"  to="/inscription">Inscription</Link>
-                        </li>
+
+                        {
+                            connecte ? (
+                                    <li className="nav-item">
+                                        <Link onClick={() => onDeconnexion()} className="nav-link" to="/connexion">
+                                            Se déconnecter
+                                        </Link>
+                                    </li>)
+                                : (
+                                    <>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to="/connexion">Connexion</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to="/inscription">Inscription</Link>
+                                        </li>
+                                    </>
+                                )
+                        }
+
                     </ul>
                     <form className="d-flex" role="search">
                         <input className="form-control me-2" type="search" placeholder="Search"
