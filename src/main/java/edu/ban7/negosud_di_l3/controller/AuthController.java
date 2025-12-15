@@ -1,6 +1,9 @@
 package edu.ban7.negosud_di_l3.controller;
 
+import edu.ban7.negosud_di_l3.dao.CommandeDao;
 import edu.ban7.negosud_di_l3.dao.UtilisateurDao;
+import edu.ban7.negosud_di_l3.model.Commande;
+import edu.ban7.negosud_di_l3.model.StatusCommande;
 import edu.ban7.negosud_di_l3.model.Utilisateur;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,6 +26,7 @@ public class AuthController {
     protected String jwtSecret;
 
     protected final UtilisateurDao utilisateurDao;
+    protected final CommandeDao commandeDao;
     protected final PasswordEncoder passwordEncoder;
     protected final AuthenticationProvider authenticationProvider;
 
@@ -38,6 +42,11 @@ public class AuthController {
 
         utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
         utilisateurDao.save(utilisateur);
+
+        Commande panier = new Commande();
+        panier.setUtilisateur(utilisateur);
+        panier.setStatus(StatusCommande.PANIER);
+        commandeDao.save(panier);
 
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }

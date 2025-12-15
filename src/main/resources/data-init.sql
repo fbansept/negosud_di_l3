@@ -21,7 +21,8 @@ INSERT INTO utilisateur (email, password, role) VALUES
 INSERT INTO commande (date, status, utilisateur_id) VALUES
           (NOW(), 'PANIER', 1) ,
           ('2025-10-26 08:35:14.000000', 'PANIER', 2),
-          ('2025-10-26 08:34:14.000000', 'ANNULEE', 2);
+          ('2025-10-26 08:34:14.000000', 'ANNULEE', 2),
+          ('2025-10-26 08:35:14.000000', 'PANIER', 3);
 
 INSERT INTO ligne_commande (commande_id, produit_id , quantite, prix_total) VALUES
          (1, 2, 6, 75),
