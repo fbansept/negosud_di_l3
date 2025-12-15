@@ -7,6 +7,7 @@ import edu.ban7.negosud_di_l3.model.StatusCommande;
 import edu.ban7.negosud_di_l3.model.Utilisateur;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -36,9 +37,12 @@ public class AuthController {
      * @return
      */
     @PostMapping("/inscription")
-    public ResponseEntity<String> signIn(@RequestBody Utilisateur utilisateur) {
+    public ResponseEntity<String> signIn(@RequestBody @Valid Utilisateur utilisateur) {
 
         //TODO : valider les données (verifier sure l'email a un format d'email ...)
+//        if(utilisateur.getPassword() == null || utilisateur.getPassword().equals("")) {
+//            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+//        }
 
         utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
         utilisateurDao.save(utilisateur);
