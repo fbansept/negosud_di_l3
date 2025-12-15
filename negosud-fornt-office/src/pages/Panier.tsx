@@ -1,7 +1,19 @@
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-export default function Panier() {
+export default function Panier({connecte} : {connecte : boolean}) {
+
+
+    // Empêche l'utilisateur d'aller sur la page panier, s'il n'est pas connecté
+    let navigate = useNavigate();
+
+    if(!connecte) {
+        useEffect(() => {
+            navigate('/connexion')
+        }, []);
+        return
+    }
+
     const [ligneCommandes, setLigneCommandes] = useState([]);
 
     useEffect(() => {

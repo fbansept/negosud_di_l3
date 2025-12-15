@@ -18,7 +18,7 @@ function App() {
             <Menu connecte={connecte} setConnecte={setConnecte} />
             <Routes>
                 <Route path="/" element={<Accueil />} />
-                <Route path="/panier" element={<Panier />} />
+                <Route path="/panier" element={<Panier connecte={connecte} />} />
                 <Route path="/connexion" element={<Connexion setConnecte={setConnecte} />} />
                 <Route path="/inscription" element={<Inscription />} />
             </Routes>

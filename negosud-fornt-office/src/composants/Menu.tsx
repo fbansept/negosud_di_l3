@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 
 type MenuProps = { connecte: boolean, setConnecte: Function }
 
-export default function Menu({connecte, setConnecte} : MenuProps) {
+export default function Menu({connecte, setConnecte}: MenuProps) {
 
     function onDeconnexion() {
         localStorage.removeItem('token');
@@ -24,17 +24,20 @@ export default function Menu({connecte, setConnecte} : MenuProps) {
                         <li className="nav-item">
                             <Link className="nav-link" to="/">Accueil</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/panier">Panier</Link>
-                        </li>
+
 
                         {
                             connecte ? (
-                                    <li className="nav-item">
-                                        <Link onClick={() => onDeconnexion()} className="nav-link" to="/connexion">
-                                            Se déconnecter
-                                        </Link>
-                                    </li>)
+                                    <>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to="/panier">Panier</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link onClick={() => onDeconnexion()} className="nav-link" to="/connexion">
+                                                Se déconnecter
+                                            </Link>
+                                        </li>
+                                    </>)
                                 : (
                                     <>
                                         <li className="nav-item">
