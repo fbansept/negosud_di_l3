@@ -1,10 +1,12 @@
 package edu.ban7.negosud_di_l3.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import edu.ban7.negosud_di_l3.dao.CommandeDao;
 import edu.ban7.negosud_di_l3.dao.UtilisateurDao;
 import edu.ban7.negosud_di_l3.model.Commande;
 import edu.ban7.negosud_di_l3.model.StatusCommande;
 import edu.ban7.negosud_di_l3.model.Utilisateur;
+import edu.ban7.negosud_di_l3.view.UtilisateurView;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.validation.Valid;
@@ -15,9 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,18 +34,32 @@ public class AuthController {
     protected final PasswordEncoder passwordEncoder;
     protected final AuthenticationProvider authenticationProvider;
 
-    /**
-     * Ajoute un utilisateur en base de donnée
-     * @param utilisateur
-     * @return
-     */
-    @PostMapping("/inscription")
-    public ResponseEntity<String> signIn(@RequestBody @Valid Utilisateur utilisateur) {
+    @PutMapping("/utilisateur/{id}")
+    @JsonView(UtilisateurView.class)
+    public ResponseEntity<Utilisateur> update(
+            @PathVariable int id,
+            @RequestBody @Validated(Utilisateur.onMiseAjour.class) Utilisateur utilisateurEnvoye) {
 
-        //TODO : valider les données (verifier sure l'email a un format d'email ...)
-//        if(utilisateur.getPassword() == null || utilisateur.getPassword().equals("")) {
-//            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
-//        }
+        Optional<Utilisateur> optionalUtilisateur = utilisateurDao.findById(id);
+
+        if(optionalUtilisateur.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Utilisateur utilisateurBaseDeDonnees = optionalUtilisateur.get();
+
+        //setter dans l'objet provenant de la bdd uniquement les propriétés
+        //que l'utilisateur à le droit de changer (par le role par exemple)
+        utilisateurBaseDeDonnees.setEmail(utilisateurEnvoye.getEmail());
+
+        utilisateurDao.save(utilisateurBaseDeDonnees);
+
+        return new ResponseEntity<>(utilisateurBaseDeDonnees,HttpStatus.OK);
+    }
+
+    @PostMapping("/inscription")
+    public ResponseEntity<String> signIn(
+            @RequestBody @Validated(Utilisateur.onCreation.class) Utilisateur utilisateur) {
 
         utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
         utilisateurDao.save(utilisateur);
@@ -80,5 +97,8 @@ public class AuthController {
 
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
+
+
+
 
 }
