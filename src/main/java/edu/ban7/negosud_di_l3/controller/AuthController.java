@@ -12,6 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -52,7 +53,13 @@ public class AuthController {
         //que l'utilisateur à le droit de changer (par le role par exemple)
         utilisateurBaseDeDonnees.setEmail(utilisateurEnvoye.getEmail());
 
-        utilisateurDao.save(utilisateurBaseDeDonnees);
+        //Ici on peut gérer le cas ou l'utilisateur utilise un email déja existant
+        //note : on peut également gérer une exception globalement via un @ControllerAdvice (page 251 du PDF)
+        try {
+            utilisateurDao.save(utilisateurBaseDeDonnees);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
 
         return new ResponseEntity<>(utilisateurBaseDeDonnees,HttpStatus.OK);
     }

@@ -30,7 +30,7 @@ public class Utilisateur {
     protected Integer id;
 
     @Column(nullable = false, unique = true, length = 100)
-    @NotBlank(groups = { onCreation.class, onMiseAjour.class })
+    @NotBlank(groups = { onCreation.class, onMiseAjour.class }, message = "L'email ne peut pas etre vide")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}",
             groups = { onCreation.class, onMiseAjour.class })
     @JsonView(UtilisateurView.class)
