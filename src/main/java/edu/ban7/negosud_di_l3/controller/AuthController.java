@@ -54,7 +54,10 @@ public class AuthController {
         utilisateurBaseDeDonnees.setEmail(utilisateurEnvoye.getEmail());
 
         //Ici on peut gérer le cas ou l'utilisateur utilise un email déja existant
-        //note : on peut également gérer une exception globalement via un @ControllerAdvice (page 251 du PDF)
+        //note : on peut également gérer une exception globalement via un @ControllerAdvice
+        // (voir classe IntercepteurGlobal a la racine)
+        //note : actuellement l'erreur est intercepté de 2 manières: avec ce try/catch et
+        //avec l'intercepteur global (ce qui n'est pas nécessaire mais pour l'exemple)
         try {
             utilisateurDao.save(utilisateurBaseDeDonnees);
         } catch (DataIntegrityViolationException e) {
