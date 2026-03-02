@@ -6,10 +6,10 @@ INSERT INTO fournisseur (nom) VALUES
       ('Fournisseur 1'),
       ('Fournisseur 2');
 
-INSERT INTO produit (nom, prix, famille_id, fournisseur_id) VALUES
-        ('Reisling', 12.5, 1, 1),
-        ('Coteau du Layon', 8.5, 1, 2),
-        ('Haut Medoc', 10.2, 2, 2);
+INSERT INTO produit (nom, prix) VALUES
+        ('Reisling', 12.5),
+        ('Coteau du Layon', 8.5),
+        ('Haut Medoc', 10.2);
 
 /* password  = root */
 INSERT INTO utilisateur (email, password, role) VALUES

@@ -1,5 +1,6 @@
 package edu.ban7.negosud_di_l3.model;
 
+import edu.ban7.negosud_di_l3.security.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +24,10 @@ public class Utilisateur {
     @Column(nullable = false)
     protected String password;
 
-    protected boolean admin;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('CLIENT', 'ADMIN', 'EMPLOYE')")
+    protected Role role;
 
-
+    public interface onCreation {}
+    public interface onMiseAjour {}
 }

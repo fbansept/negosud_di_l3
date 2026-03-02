@@ -1,7 +1,6 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: mysql_server
     environment:
       MYSQL_ROOT_PASSWORD: root  # Remplace par ton mot de passe
       MYSQL_DATABASE: negosud             # Remplace par le nom de ta base de données
