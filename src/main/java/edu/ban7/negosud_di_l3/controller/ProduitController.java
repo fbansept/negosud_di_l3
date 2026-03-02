@@ -2,6 +2,8 @@ package edu.ban7.negosud_di_l3.controller;
 
 import edu.ban7.negosud_di_l3.dao.ProduitDao;
 import edu.ban7.negosud_di_l3.model.Produit;
+import edu.ban7.negosud_di_l3.security.IsAdmin;
+import edu.ban7.negosud_di_l3.security.IsUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +22,13 @@ public class ProduitController {
 
     protected final ProduitDao produitDao;
 
+    @IsUser
     @GetMapping("/list")
-    public List<Produit> list() {
-        return produitDao.findAll();
+    public ResponseEntity<List<Produit>> list() {
+        return ResponseEntity.ok(produitDao.findAll());
     }
 
+    @IsUser
     @GetMapping("/{id}")
     public ResponseEntity<Produit> get(@PathVariable int id) {
 
@@ -38,6 +42,7 @@ public class ProduitController {
 
     }
 
+    @IsAdmin
     @PostMapping
     public ResponseEntity<Produit> create(@RequestBody Produit produit) {
 
@@ -46,7 +51,7 @@ public class ProduitController {
         return new ResponseEntity<>(produit, HttpStatus.CREATED);
     }
 
-
+    @IsAdmin
     @DeleteMapping("/{id}")
     public ResponseEntity<Produit> delete(@PathVariable int id) {
 
@@ -62,6 +67,7 @@ public class ProduitController {
 
     }
 
+    @IsAdmin
     @PutMapping("/{id}")
     public ResponseEntity<Produit> update(
             @PathVariable int id,
