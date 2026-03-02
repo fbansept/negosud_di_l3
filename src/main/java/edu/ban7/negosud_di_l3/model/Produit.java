@@ -27,7 +27,7 @@ public class Produit {
     @NotBlank
     protected String nom;
 
-    @DecimalMin(value = "0.01", inclusive = true)
+    @DecimalMin(value = "0.01")
     protected float prix;
 
     //arrondir au centime supérieur
