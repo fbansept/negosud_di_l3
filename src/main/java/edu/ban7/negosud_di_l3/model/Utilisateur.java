@@ -1,6 +1,8 @@
 package edu.ban7.negosud_di_l3.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import edu.ban7.negosud_di_l3.security.Role;
+import edu.ban7.negosud_di_l3.view.UtilisateurView;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,12 +21,14 @@ public class Utilisateur {
     protected Integer id;
 
     @Column(nullable = false)
+    @JsonView(UtilisateurView.class)
     protected String email;
 
     @Column(nullable = false)
     protected String password;
 
     @Enumerated(EnumType.STRING)
+    @JsonView(UtilisateurView.class)
     @Column(columnDefinition = "ENUM('CLIENT', 'ADMIN', 'EMPLOYE')")
     protected Role role;
 

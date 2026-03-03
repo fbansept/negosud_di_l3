@@ -6,6 +6,10 @@ import edu.ban7.negosud_di_l3.dao.UtilisateurDao;
 import edu.ban7.negosud_di_l3.model.Commande;
 import edu.ban7.negosud_di_l3.model.StatusCommande;
 import edu.ban7.negosud_di_l3.model.Utilisateur;
+import edu.ban7.negosud_di_l3.security.AppUserDetails;
+import edu.ban7.negosud_di_l3.security.IsClient;
+import edu.ban7.negosud_di_l3.security.IsUser;
+import edu.ban7.negosud_di_l3.view.CommandeView;
 import edu.ban7.negosud_di_l3.view.UtilisateurView;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -108,7 +113,20 @@ public class AuthController {
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 
+    @GetMapping("/profil")
+    @JsonView(UtilisateurView.class)
+    @IsUser
+    public ResponseEntity<Utilisateur> getProfil(
+            @AuthenticationPrincipal AppUserDetails user) {
 
+        Optional<Utilisateur> optional =  utilisateurDao.findByEmail(user.getUsername());
+
+        if(optional.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(optional.get(), HttpStatus.OK);
+    }
 
 
 }
