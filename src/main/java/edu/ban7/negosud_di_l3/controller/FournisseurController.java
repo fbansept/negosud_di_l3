@@ -2,6 +2,7 @@ package edu.ban7.negosud_di_l3.controller;
 
 import edu.ban7.negosud_di_l3.dao.FournisseurDao;
 import edu.ban7.negosud_di_l3.model.Fournisseur;
+import edu.ban7.negosud_di_l3.security.IsEmploye;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class FournisseurController {
     protected final FournisseurDao fournisseurDao;
 
     @GetMapping("/list")
+    @IsEmploye
     public List<Fournisseur> list() {
         return fournisseurDao.findAll();
     }

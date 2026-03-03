@@ -22,13 +22,11 @@ public class ProduitController {
 
     protected final ProduitDao produitDao;
 
-    @IsUser
     @GetMapping("/list")
     public ResponseEntity<List<Produit>> list() {
         return ResponseEntity.ok(produitDao.findAll());
     }
 
-    @IsUser
     @GetMapping("/{id}")
     public ResponseEntity<Produit> get(@PathVariable int id) {
 
